@@ -3,25 +3,12 @@ package eu.i07;
 import java.awt.*;
 import java.awt.event.*;
 
-//import java.awt.AWTException;
-//import java.awt.EventQueue;
-//import java.awt.GraphicsConfiguration;
-//import java.awt.GraphicsDevice;
-//import java.awt.GraphicsEnvironment;
-//import java.awt.Image;
-//import java.awt.Insets;
-//import java.awt.Point;
-//import java.awt.Rectangle;
-//import java.awt.SystemTray;
-//import java.awt.Toolkit;
-//import java.awt.TrayIcon;
-//import java.awt.event.MouseAdapter;
-//import java.awt.event.MouseEvent;
 import java.net.URL;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+
+import eu.i07.Utils.Screen;
 
 
 public class DevHelp {
@@ -49,7 +36,10 @@ public class DevHelp {
 	 * Create the application.
 	 */
 	public DevHelp() {
+		
 		if (!SystemTray.isSupported()) {
+			// If SystemTray is not supported the app cannot run
+			// TODO: throw an error, so the user understands why it cannot run this application.
             System.out.println("SystemTray is not supported");
             return;
         }
@@ -58,22 +48,25 @@ public class DevHelp {
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * Initialise the contents of the frame.
 	 */
 	private void initialize() {
+		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setUndecorated(true);
 		
-		//final PopupMenu popup = new PopupMenu();
+		// set the tray icon
         final TrayIcon trayIcon = new TrayIcon(createImage("images/devhelp-logo.png", "tray icon"));
+        // add it to system tray
         final SystemTray tray = SystemTray.getSystemTray();
        
+        // When we click on the icon, this will open our frame
         trayIcon.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-              Rectangle bounds = getSafeScreenBounds(e.getPoint());
+              Rectangle bounds = Screen.getSafeBounds(e.getPoint());
 
               Point point = e.getPoint();
 
@@ -102,8 +95,7 @@ public class DevHelp {
               } else {
             	  frame.setVisible(true);
               }
-              //popup.setLocation(x, y);
-              //popup.setVisible(true);
+           
             }
           });
        
@@ -126,68 +118,5 @@ public class DevHelp {
         }
     }
 	
-	public static Rectangle getSafeScreenBounds(Point pos) {
-
-	    Rectangle bounds = getScreenBoundsAt(pos);
-	    Insets insets = getScreenInsetsAt(pos);
-
-	    bounds.x += insets.left;
-	    bounds.y += insets.top;
-	    bounds.width -= (insets.left + insets.right);
-	    bounds.height -= (insets.top + insets.bottom);
-
-	    return bounds;
-
-	  }
-
-	  public static Insets getScreenInsetsAt(Point pos) {
-	    GraphicsDevice gd = getGraphicsDeviceAt(pos);
-	    Insets insets = null;
-	    if (gd != null) {
-	      insets = Toolkit.getDefaultToolkit().getScreenInsets(gd.getDefaultConfiguration());
-	    }
-	    return insets;
-	  }
-
-	  public static Rectangle getScreenBoundsAt(Point pos) {
-	    GraphicsDevice gd = getGraphicsDeviceAt(pos);
-	    Rectangle bounds = null;
-	    if (gd != null) {
-	      bounds = gd.getDefaultConfiguration().getBounds();
-	    }
-	    return bounds;
-	  }
-
-	  public static GraphicsDevice getGraphicsDeviceAt(Point pos) {
-
-	    GraphicsDevice device = null;
-
-	    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-	    GraphicsDevice lstGDs[] = ge.getScreenDevices();
-
-	    ArrayList<GraphicsDevice> lstDevices = new ArrayList<GraphicsDevice>(lstGDs.length);
-
-	    for (GraphicsDevice gd : lstGDs) {
-
-	      GraphicsConfiguration gc = gd.getDefaultConfiguration();
-	      Rectangle screenBounds = gc.getBounds();
-
-	      if (screenBounds.contains(pos)) {
-
-	        lstDevices.add(gd);
-
-	      }
-
-	    }
-
-	    if (lstDevices.size() > 0) {
-	      device = lstDevices.get(0);
-	    } else {
-	      device = ge.getDefaultScreenDevice();
-	    }
-
-	    return device;
-
-	  }
 
 }
