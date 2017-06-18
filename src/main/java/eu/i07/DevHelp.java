@@ -67,7 +67,7 @@ public class DevHelp {
 		frame.setUndecorated(true);
 		
 		//final PopupMenu popup = new PopupMenu();
-        final TrayIcon trayIcon = new TrayIcon(createImage("images/bulb.gif", "tray icon"));
+        final TrayIcon trayIcon = new TrayIcon(createImage("images/devhelp-logo.png", "tray icon"));
         final SystemTray tray = SystemTray.getSystemTray();
        
         trayIcon.addMouseListener(new MouseAdapter() {
