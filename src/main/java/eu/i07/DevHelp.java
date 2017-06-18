@@ -1,6 +1,7 @@
 package eu.i07;
 
 import java.awt.*;
+import java.awt.Window.Type;
 import java.awt.event.*;
 
 import java.net.URL;
@@ -11,6 +12,8 @@ import javax.swing.JFrame;
 import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 
+import eu.i07.Spark.Routes;
+import eu.i07.Utils.Globals;
 import eu.i07.Utils.Screen;
 
 import static spark.Spark.*;
@@ -27,16 +30,33 @@ public class DevHelp {
 	 */
 	public static void main(String[] args) {
 		
+		if (System.getProperty("os.name").contains("Mac")) {
+	        // Required to remove dock icon in Mac OSX.
+	        System.setProperty("apple.awt.UIElement", "true");
+		}
+		
+		Globals.init();
+		
+		// Set static files location
+        if (1==1) {
+            String projectDir = System.getProperty("user.dir");
+            String staticDir = "/src/main/resources/static";
+            staticFiles.externalLocation(projectDir + staticDir);
+        } else {
+            staticFiles.location("/static");
+        }
+        
 		port(1111);
 		
-		get("/index",  (req, res) -> "Hello World");
-		
+		new Routes();
+				
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					DevHelp window = new DevHelp();
 					window.frame.setVisible(false);
 					window.frame.setAlwaysOnTop(true);
+					window.frame.setType(Type.POPUP);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -71,7 +91,7 @@ public class DevHelp {
 		
 		frame.add(view, BorderLayout.CENTER);
 		
-		browser.loadURL("http://127.0.0.1:1111/index");
+		browser.loadURL("http://127.0.0.1:1111");
 		
 		// set the tray icon
         final TrayIcon trayIcon = new TrayIcon(createImage("images/devhelp-logo.png", "tray icon"));
