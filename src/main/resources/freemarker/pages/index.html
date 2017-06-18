@@ -1,3 +1,75 @@
-Hello Freemarker World!
+<style>
+.tabs .indicator {
+	background-color: #2196f3 !important;
+}
+</style>
+<div class="row">
+    <div class="col s12 blue-text">
+      <ul class="tabs">
+        <li class="tab col s3"><a class="active blue-text" href="#test1">Main</a></li>
+        <li class="tab col s3 blue-text"><a class="blue-text" href="#test2">Encode</a></li>
+        <li class="tab col s3 blue-text"><a class="blue-text" href="#test3">Base64</a></li>
+        <li class="tab col s3 blue-text"><a class="blue-text" href="#test4">Date/Time</a></li>
+      </ul>
+    </div>
+    <div id="test1" class="col s12">Test 1</div>
+    <div id="test2" class="col s12">Test 2</div>
+    <div id="test3" class="col s12">Test 3</div>
+    <div id="test4" class="col s12">
+    	Current Time: <span id="current-time"></span>
+    </div>
+</div>
+  
+<div id="setting-button">
+	<a class='dropdown-button blue btn' href='#' style='max-width:40px;padding:0;padding-left:10px' data-activates='dropdown1'><i class="material-icons left">settings</i></a>
+</div>
 
-<button onclick="exit()">Close App</button>
+<!-- Dropdown Structure -->
+  <ul id='dropdown1' style="width:200px;" class='dropdown-content'>
+    <li><a href="#!" class="blue-text">one</a></li>
+    <li><a href="#!" class="blue-text">two</a></li>
+    <li class="divider"></li>
+    <li><a href="#!" class="blue-text">three</a></li>
+    <li><a href="#!" class="blue-text"><i class="material-icons">view_module</i>four</a></li>
+    <li><a class="blue-text" href="#modal1"><i class="material-icons">settings_power</i>Quit</a></li>
+  </ul>
+  
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Quit DevHelp</h4>
+      <p>Are you sure to quit DevHelp?</p>
+      <p>The program will no longer be active, you would need to restart the application to start using DevHelp again.</p>
+    </div>
+    <div class="modal-footer">
+    	<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+        <a href="#!" onclick="exit()" class="modal-action modal-close waves-effect waves-green btn-flat ">Quit</a>
+    </div>
+  </div>
+  
+  <script>
+  
+  $(document).ready(function(){
+    
+    setInterval(function() {
+    	var date = new Date();
+    	$('#current-time').html(date);
+    }, 1000);
+    
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+    $('.dropdown-button').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      constrainWidth: false,
+      hover: false,
+      gutter: 0,
+      belowOrigin: false,
+      alignment: 'left',
+      stopPropagation: false
+    }
+  );
+  $('ul.tabs').tabs();
+  });
+ 
+  </script>

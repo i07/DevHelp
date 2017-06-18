@@ -14,6 +14,8 @@ import javax.swing.UIManager;
 import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.JSValue;
 import com.teamdev.jxbrowser.chromium.LoadURLParams;
+import com.teamdev.jxbrowser.chromium.events.ConsoleEvent;
+import com.teamdev.jxbrowser.chromium.events.ConsoleListener;
 import com.teamdev.jxbrowser.chromium.events.ScriptContextAdapter;
 import com.teamdev.jxbrowser.chromium.events.ScriptContextEvent;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
@@ -164,6 +166,12 @@ public class DevHelp {
 //	    });
 //	    popup.add(close);
 		LoadURLParams urlparams = new LoadURLParams("http://127.0.0.1:1111", "", "DevHelp: true");
+		
+		browser.addConsoleListener(new ConsoleListener() {
+		    public void onMessage(ConsoleEvent event) {
+		        System.out.println("Message: " + event.getMessage());
+		    }
+		});
 		
 		browser.loadURL(urlparams);
 				

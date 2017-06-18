@@ -2,7 +2,6 @@
 var devhelp = {
 	
 	init: function() {
-		//$('body').css('background-color', '#f00');
 		this.loadPage('pages/index');
 	},
 	
@@ -16,6 +15,7 @@ var devhelp = {
 			url: page,
 			processData: false,
 			success: function(msg) {
+				console.log(msg);
 				$("#gui").html(msg);
 			}
 		});
