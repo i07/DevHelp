@@ -8,8 +8,8 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
-public class IndexController {
-
+public class PagesController {
+	
 	/**
 	 * Serve the page for index page
 	 * 
@@ -24,7 +24,7 @@ public class IndexController {
 		}
 		
 		Map<String, Object> attributes = new HashMap<>();
-		return ViewUtil.render(request, attributes, "index/index.html");
+		return ViewUtil.render(request, attributes, "pages/index.html");
 	};
 	
 }

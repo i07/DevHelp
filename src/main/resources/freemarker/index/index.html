@@ -1,9 +1,14 @@
 <#import "../base.html" as layout />
 <@layout.masterTemplate title="index">
-Hello Freemarker World!
 <script>
 	$(function(){
-		alert('hi');
+	alert('hi');
+		devhelp.init();
 	});
+	
+	var exit = function() {
+		window.java.exit_application();
+	}
 </script>
+<div id="gui">op</div>
 </@layout.masterTemplate>
