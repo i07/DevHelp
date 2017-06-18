@@ -8,17 +8,29 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+import com.teamdev.jxbrowser.chromium.Browser;
+import com.teamdev.jxbrowser.chromium.swing.BrowserView;
+
 import eu.i07.Utils.Screen;
 
+import static spark.Spark.*;
 
 public class DevHelp {
 
 	private JFrame frame;
 
+	final Browser browser = new Browser();
+    BrowserView view = new BrowserView(browser);
+    
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
+		port(1111);
+		
+		get("/index",  (req, res) -> "Hello World");
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -56,6 +68,10 @@ public class DevHelp {
 		frame.setBounds(100, 100, 450, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setUndecorated(true);
+		
+		frame.add(view, BorderLayout.CENTER);
+		
+		browser.loadURL("http://127.0.0.1:1111/index");
 		
 		// set the tray icon
         final TrayIcon trayIcon = new TrayIcon(createImage("images/devhelp-logo.png", "tray icon"));
