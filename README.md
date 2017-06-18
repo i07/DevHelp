@@ -1,2 +1,2 @@
 # DevHelp
-DevHelp is a always available cross platform toolbox for developers
+DevHelp is an always available cross platform toolbox for developers
