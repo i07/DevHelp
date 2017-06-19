@@ -1,6 +1,7 @@
 package eu.i07.Utils;
 
 import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -10,10 +11,33 @@ import java.awt.event.MouseEvent;
 public class Screen {
 
 	public static int TaskbarHeight = 0;
+	public static int Width = 0;
+	public static int Height = 0;
+	public static int MonitorCount = 0;
 	
 	static {
 		
 		TaskbarHeight = getTaskbarHeight();
+		
+		MonitorCount = getNumberOfMonitors();
+		
+		Rectangle bounds = getResolution();
+				
+		Width = bounds.width;
+		Height = bounds.height;
+	}
+	
+	public static int getNumberOfMonitors() {
+		int monitorWidth = 0;
+	    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    GraphicsDevice[] screenDevices = ge.getScreenDevices();
+	    
+	    return screenDevices.length;
+	}
+	
+	public static Rectangle getResolution() {
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		return gd.getDefaultConfiguration().getBounds();
 	}
 	
 	public static Rectangle getSafeBounds(Point pos) {

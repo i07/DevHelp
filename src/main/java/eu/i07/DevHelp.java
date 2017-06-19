@@ -3,12 +3,13 @@ package eu.i07;
 import java.awt.*;
 import java.awt.Window.Type;
 import java.awt.event.*;
-import java.awt.geom.AffineTransform;
 import java.net.URL;
 
+import javax.management.monitor.Monitor;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.Popup;
 import javax.swing.UIManager;
 
 import com.teamdev.jxbrowser.chromium.Browser;
@@ -36,27 +37,27 @@ public class DevHelp {
 	private JFrame frame;
 	private PopupMenu popup;
 	
+	private int FrameWidth = 550;
+	private int FrameHeight = 800;
+	
 	final static Browser browser = new Browser();
     BrowserView view = new BrowserView(browser);
-    
+       
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		
+		Globals.init();
+			
 		try {
 			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 			
 		} catch(Exception e) {
 			System.out.println("Error setting native LAF: " + e);
 		}
-				
-		if (System.getProperty("os.name").contains("Mac")) {
-	        // Required to remove dock icon in Mac OSX.
-			System.out.println("Running Mac OSX");
-	        //System.setProperty("apple.awt.UIElement", "true");
-		}
-				
+								
+		System.out.println(Globals.OS);
 		//attach javascript listener, to pass over the JavaObject
 		browser.addScriptContextListener(new ScriptContextAdapter() {
 		    @Override
@@ -66,9 +67,7 @@ public class DevHelp {
 		        window.asObject().setProperty("java", new JavaObject());
 		    }
 		});
-		
-		Globals.init();
-		
+			
 		// Set static files location
         if (1==2) {
             String projectDir = System.getProperty("user.dir");
@@ -92,7 +91,8 @@ public class DevHelp {
 					window.frame.setAlwaysOnTop(true);
 					window.frame.setType(Type.POPUP);
 					window.frame.setUndecorated(true);
-															
+					window.frame.getRootPane().setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.decode("#2196f3")));
+																			
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -127,8 +127,19 @@ public class DevHelp {
 	 */
 	private void initialize() {
 		
+		String trayIconPath = "";
+		
+		switch(Globals.OS) {
+			case "WIN":
+				trayIconPath = "images/devhelp-logo-color.png";
+				break;
+			default:
+				trayIconPath = "images/" + Globals.AppTrayIcon + ".png";
+				break;
+		}
+		
 		// set the tray icon
-        final TrayIcon trayIcon = new TrayIcon(createImage("images/devhelp-logo.png", "tray icon"), "Context Menu");
+        final TrayIcon trayIcon = new TrayIcon(createImage(trayIconPath, "tray icon"), "DevHelp");
         // add it to system tray
         final SystemTray tray = SystemTray.getSystemTray();
         
@@ -137,7 +148,7 @@ public class DevHelp {
 //		Invframe.setVisible(true);
 //        
 		frame = new JFrame();
-		frame.setBounds(100, 100, 550, 800);
+		frame.setBounds(100, 100, FrameWidth, FrameHeight);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		frame.add(view, BorderLayout.CENTER);
@@ -179,13 +190,39 @@ public class DevHelp {
             @Override
             public void mouseReleased(MouseEvent e) {
             	
+            	//TODO: currently hardcoded taskbar height in case 0
+            	if (Screen.TaskbarHeight == 0) {
+            		Screen.TaskbarHeight = 80;
+            	};
+            	
+            	int frameTop = 0;
+            	int frameLeft = 0;
+            	
             	Point loc = Screen.getSystrayIconPosition(e);
+            	            	
+            	if (loc.y > (Screen.Height-100)) {
+            		//taskbar/systray is at the bottom of the screen
+            		frameTop = Screen.Height-(Screen.TaskbarHeight+FrameHeight);
+            	} else {
+            		//taskbar/systray is at the top of the screen
+            		frameTop = loc.y;
+            	}
             	
             	if (e.getButton() == MouseEvent.BUTTON1) {
-            		//trayIcon.setPopupMenu(null);
-            		//Invframe.remove(popup);
-            		System.out.println("BUTTON1 pressed");
-            		frame.setLocation(loc.x-(frame.getWidth()/2), loc.y);
+            		
+            		System.out.println(frameTop);
+            		
+            		frameLeft = loc.x-(FrameWidth/2);
+            		
+            		//TODO: taskbar detection still needed, taskbar height is taken from
+            		//primary monitor, which is 0 when taskbar is on secondary monitor
+            		if ((frameLeft+FrameWidth) > Screen.Width*2) {
+            			frameLeft = Screen.Width*2-FrameWidth;
+            		} else if ((frameLeft+FrameWidth) > Screen.Width) {
+            			frameLeft = Screen.Width-FrameWidth;
+            		}
+            		
+            		frame.setLocation(frameLeft, frameTop);
               
         			if (frame.isVisible()) {
         				frame.setVisible(false);
@@ -213,6 +250,11 @@ public class DevHelp {
         
         }
 		
+        if (Screen.MonitorCount > 1) {
+        	//Point ownerLocationOnScreen = frame.getLocationOnScreen();
+        	//System.out.println(ownerLocationOnScreen);
+		}
+		
 	}
 	
 	protected static Image createImage(String path, String description) {
@@ -222,7 +264,12 @@ public class DevHelp {
             System.err.println("Resource not found: " + path);
             return null;
         } else {
-            return (new ImageIcon(imageURL, description)).getImage();
+        	// when on windows we need to return the icon 16x16
+        	if ("WIN".equals(Globals.OS)) {
+        		return (new ImageIcon(imageURL, description)).getImage().getScaledInstance(16, 16, 8);
+        	} else {
+        		return (new ImageIcon(imageURL, description)).getImage();
+        	}
         }
     }
 	

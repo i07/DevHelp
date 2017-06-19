@@ -37,13 +37,35 @@
 
 body {
 	font-family: "Lato";
+	background-color: #FFFFFF;
+}
+
+#header {
+	position:absolute;
+	left:0;
+	right:0;
+	top:0;
+	height:44px;
+	background-color:#EFEFEF;
+}
+
+#main-logo {
+	padding: 4px;
+	width: 150px;
 }
 
 #gui {
+	position:absolute;
+	left:0;
+	right:0;
+	top:46px;
 	max-width: 550px;
 }
+
 #setting-button {
+	
 	position: absolute;
 	right: 3px;
 	top: 3px;
+	
 }

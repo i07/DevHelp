@@ -15,7 +15,6 @@ var devhelp = {
 			url: page,
 			processData: false,
 			success: function(msg) {
-				console.log(msg);
 				$("#gui").html(msg);
 			}
 		});
