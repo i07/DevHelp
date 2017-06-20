@@ -35,6 +35,28 @@
   font-feature-settings: 'liga';
 }
 
+/* label underline focus color */
+.input-field input[type=text]:focus {
+   border-bottom: 1px solid #2196f3;
+   box-shadow: 0 1px 0 0 #2196f3;
+}
+ 
+.picker__date-display, .picker__weekday-display{
+ 	background-color: rgba(66, 133, 244, 0.79);
+}
+
+div.picker__day.picker__day--infocus.picker__day--selected.picker__day--highlighted {
+   background-color: rgba(66, 133, 244, 0.79);
+}
+
+button.picker__today, button.picker__close {
+   color: rgba(66, 133, 244, 0.79);
+}
+ 
+.picker__date-display, .picker__weekday-display{
+    background-color: #2196f3;
+}
+
 body {
 	font-family: "Lato";
 	background-color: #FFFFFF;
@@ -68,4 +90,10 @@ body {
 	right: 3px;
 	top: 3px;
 	
+}
+
+#reload-button {
+	position: absolute;
+	right: 55px;
+	top: 3px;
 }

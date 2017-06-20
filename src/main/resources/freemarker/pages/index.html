@@ -9,15 +9,24 @@
         <li class="tab col s3"><a class="active blue-text" href="#test1">Main</a></li>
         <li class="tab col s3 blue-text"><a class="blue-text" href="#test2">Encode</a></li>
         <li class="tab col s3 blue-text"><a class="blue-text" href="#test3">Base64</a></li>
-        <li class="tab col s3 blue-text"><a class="blue-text" href="#test4">Date/Time</a></li>
       </ul>
     </div>
-    <div id="test1" class="col s12">Test 1</div>
+    <div id="test1" class="col s12">
+     
+		<div class="row">
+          	<div class="input-field col s4">
+          		<input type="date" id="current_date" class="datepicker"/>
+          		<label for="current_date">Date</label>
+          	</div>
+          	<div class="input-field col s4">
+          		<input type="text" id="current_time" class="" />
+          		<label for="current_time">Time</label>
+          	</div>
+        </div>
+        	
+    </div>
     <div id="test2" class="col s12">Test 2</div>
     <div id="test3" class="col s12">Test 3</div>
-    <div id="test4" class="col s12">
-    	Current Time: <span id="current-time"></span>
-    </div>
 </div>
   
   <!-- Modal Structure -->
@@ -35,12 +44,30 @@
   
   <script>
   
+	  function AddZero(num) {
+	    return (num >= 0 && num < 10) ? "0" + num : num + "";
+	}
+
   $(document).ready(function(){
+   
+   $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 15 // Creates a dropdown of 15 years to control year
+  });
+    /*var now = new Date();
     
-    setInterval(function() {
-    	var date = new Date();
-    	$('#current-time').html(date);
-    }, 1000);
+    var strDate = [AddZero(now.getDate()), 
+        AddZero(now.getMonth() + 1), 
+        now.getFullYear()].join("/");
+        
+    var strDateTime = [[AddZero(now.getDate()), 
+        AddZero(now.getMonth() + 1), 
+        now.getFullYear()].join("/"), 
+        [AddZero(now.getHours()), 
+        AddZero(now.getMinutes())].join(":"), 
+        now.getHours() >= 12 ? "PM" : "AM"].join(" ");
+   	
+   	$('#current-date').val(strDate); //("<input type='text' style='width:180px' value='" + strDateTime + "' />");*/
     
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
