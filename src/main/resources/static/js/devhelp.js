@@ -7,6 +7,7 @@ var devhelp = {
 	
 	loadPage: function(page) {
 		
+		$("#gui").html('');
 		$.ajax({
 			type: "GET",
 			beforeSend: function(request) {

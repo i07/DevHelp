@@ -41,7 +41,7 @@ public class DevHelp {
 		}
 											
 		// Set static files location
-        if (1==2) {
+        if (1==1) {
             String projectDir = System.getProperty("user.dir");
             String staticDir = "/src/main/resources/static";
             staticFiles.externalLocation(projectDir + staticDir);
