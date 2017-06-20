@@ -60,10 +60,18 @@ button.picker__today, button.picker__close {
 body {
 	font-family: "Lato";
 	background-color: #FFFFFF;
+	overflow: hidden;
+}
+
+#wrappez {
+  	width:550px;
+  	max-width:550px;
+  	height: 800px;
+  	overflow: hidden;
 }
 
 #header {
-	position:absolute;
+	position:relative;
 	left:0;
 	right:0;
 	top:0;
@@ -77,11 +85,11 @@ body {
 }
 
 #gui {
-	position:absolute;
+	position:relative;
 	left:0;
 	right:0;
-	top:46px;
-	max-width: 550px;
+	top:0;
+    max-width: 550px;
 }
 
 #setting-button {
@@ -96,4 +104,22 @@ body {
 	position: absolute;
 	right: 55px;
 	top: 3px;
+}
+
+.dh_tooltip {
+    width: 70px;
+    position: relative;
+    float: left;
+    display: block;
+    margin-top: 14px;
+    text-align: center;
+    padding: 8px;
+    background-color: #2196f3;
+    color: #FFFFFF;
+    display:none;
+    font-size:11px;
+}
+
+#timestamp:hover {
+    cursor: cell;
 }

@@ -18,10 +18,10 @@ public class IndexController {
 	 */
 	public static Route serveIndexPage = (Request request, Response response) -> {
 					
-		if (!"true".equals(request.headers("DevHelp"))) {
-			response.status(404);
-    		return null;
-		}
+//		if (!"true".equals(request.headers("DevHelp"))) {
+//			response.status(404);
+//    		return null;
+//		}
 		
 		Map<String, Object> attributes = new HashMap<>();
 		return ViewUtil.render(request, attributes, "index/index.html");

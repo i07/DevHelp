@@ -8,7 +8,6 @@ import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.UIManager;
 
 import eu.i07.Controls.AppFrame;
 import eu.i07.Spark.Routes;
@@ -32,13 +31,7 @@ public class DevHelp {
 	public static void main(String[] args) {
 			
 		Globals.init();
-			
-		try {
-			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-			
-		} catch(Exception e) {
-			System.out.println("Error setting native LAF: " + e);
-		}
+		
 											
 		// Set static files location
         if (1==1) {

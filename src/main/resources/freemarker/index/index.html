@@ -2,59 +2,146 @@
 <@layout.masterTemplate title="index">
 <script>
 	$(function() {
-		devhelp.init();
+		DevHelp.Init();
 	});
-	
+
 	var exit = function() {
 		window.java.exit_application();
 	}
 </script>
-<div id="header">
-	<div id="main-logo">
-		<table cellspacing=0 cellpadding=0 style='padding:0;margin:0'>
-			<tr>
-				<td style='padding:0;margin:0; width:40px;' rowspan="2" align="center"><img src="/images/logo.png" width="36" /></td>
-				<td style='padding:0;margin:0;font-size:11px;' align="left" valign="middle">DevHelp</td>
-			</tr>
-			<tr>
-				<td style='padding:0;margin:0;font-size:8px;padding-bottom:5px;' align="left" valign="top">v1.0</td>
-			</tr>
-		</table>
+<div id="wrappez">
+	<div id="header">
+		<div id="main-logo">
+			<table cellspacing="0" cellpadding="0" style='padding:0;margin:0'>
+				<tr>
+					<td style='padding:0;margin:0; width:40px;' rowspan="2" align="center"><img src="/images/logo.png" width="36" /></td>
+					<td style='padding:0;margin:0;font-size:11px;' align="left" valign="middle">DevHelp</td>
+				</tr>
+				<tr>
+					<td style='padding:0;margin:0;font-size:8px;padding-bottom:5px;' align="left" valign="top">v1.0</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="reload-button">
+			<a class='dropdown-button blue btn' href='#' style='max-width:40px;padding:0;padding-left:10px' onclick="window.location=window.location;"><i class="material-icons left">replay</i></a>
+		</div>
+		
+		<div id="setting-button">
+			<a class='dropdown-button blue btn' href='#' style='max-width:40px;padding:0;padding-left:10px' data-activates='dropdown1'><i class="material-icons left">settings</i></a>
+		</div>
+
+		<!-- Dropdown Structure -->
+		<ul id='dropdown1' style="width:200px;" class='dropdown-content'>
+		  <li><a href="#!" class="blue-text">one</a></li>
+		  <li><a href="#!" class="blue-text">two</a></li>
+		  <li class="divider"></li>
+		  <li><a href="#!" class="blue-text">three</a></li>
+		  <li><a href="#!" class="blue-text"><i class="material-icons">view_module</i>four</a></li>
+		  <li><a class="blue-text" href="#modal1"><i class="material-icons">settings_power</i>Quit</a></li>
+		</ul>
 	</div>
-	<div id="reload-button">
-		<a class='dropdown-button blue btn' href='#' style='max-width:40px;padding:0;padding-left:10px' onclick="devhelp.loadPage('pages/index')"><i class="material-icons left">replay</i></a>
-	</div>
-	<div id="setting-button">
-		<a class='dropdown-button blue btn' href='#' style='max-width:40px;padding:0;padding-left:10px' data-activates='dropdown1'><i class="material-icons left">settings</i></a>
-	</div>
+	<div id="gui">
+		<style>
+			.tabs .indicator {
+			background-color: #2196f3 !important;
+		}
+		</style>
+		<div class="row">
+			<div class="col s12 blue-text">
+				<ul class="tabs">
+					<li class="tab col s3"><a class="active blue-text" href="#test1">Main</a></li>
+					<li class="tab col s3 blue-text"><a class="blue-text" href="#test2">Encodes</a></li>
+					<li class="tab col s3 blue-text"><a class="blue-text" href="#test3">Base64</a></li>
+				</ul>
+			</div>
 	
-	<!-- Dropdown Structure -->
-	<ul id='dropdown1' style="width:200px;" class='dropdown-content'>
-	  <li><a href="#!" class="blue-text">one</a></li>
-	  <li><a href="#!" class="blue-text">two</a></li>
-	  <li class="divider"></li>
-	  <li><a href="#!" class="blue-text">three</a></li>
-	  <li><a href="#!" class="blue-text"><i class="material-icons">view_module</i>four</a></li>
-	  <li><a class="blue-text" href="#modal1"><i class="material-icons">settings_power</i>Quit</a></li>
-	</ul>
+			<div id="test1" class="col s12">
+
+				<div class="row">
+					<div class="input-field col s5">
+						<input type="text" onfocus="DevHelp.DatetimeFocus()" onblur="DevHelp.DatetimeBlur()" id="current_date" class="datepicker"/>
+						<label for="current_date">DateTime <span style="font-size:9px;">[ click to copy ]</span></label>
+					</div>
+					<div class="input-field col s5">
+						<input type="text" onfocus="DevHelp.TimestampFocus()" onblur="DevHelp.TimestampBlur()" id="timestamp" />
+						<label for="timestamp">Timestamp <span style="font-size:9px;">[ click to copy ]</span></label>
+					</div>
+					<div class="dh_tooltip" id="timestamp_copied">
+					Copied!
+					</div>
+				</div>
+
+			</div>
+
+			<div id="test2" class="col s12">Test 2</div>
+			<div id="test3" class="col s12">Test 3</div>
+		</div>
+
+		<!-- Modal Structure -->
+		<div id="modal1" class="modal modal-fixed-footer">
+			<div class="modal-content">
+	  			<h4>Quit DevHelp</h4>
+				<p>Are you sure to quit DevHelp?</p>
+				<p>The program will no longer be active, you would need to restart the application to start using DevHelp again.</p>
+			</div>
+			
+			<div class="modal-footer">
+				<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+				<a href="#!" onclick="exit()" class="modal-action modal-close waves-effect waves-green btn-flat ">Quit</a>
+			</div>
+		</div>
+
+		<script>
+
+	  		function AddZero(num) {
+				return (num >= 0 && num < 10) ? "0" + num : num + "";
+			}
+
+
+			var exit = function() {
+				setTimeout(function() {
+					window.java.exit_application();
+					}, 150);
+			};
+
+			$(document).ready(function(){
+
+				DevHelp.Init();
+				$('.modal').modal();
+
+				$('.dropdown-button').dropdown({
+					inDuration: 300,
+	  				outDuration: 225,
+	  				constrainWidth: false,
+	  				hover: false,
+	  				gutter: 0,
+	  				belowOrigin: false,
+	  				alignment: 'left',
+	  				stopPropagation: false
+				});
+				
+				$('ul.tabs').tabs();
+			});
+		</script>
+	</div>
+	<script>
+
+	  $(document).ready(function(){
+	
+	    $('.dropdown-button').dropdown({
+	      inDuration: 300,
+	      outDuration: 225,
+	      constrainWidth: false,
+	      hover: false,
+	      gutter: 0,
+	      belowOrigin: false,
+	      alignment: 'left',
+	      stopPropagation: false
+	    }
+	  );
+	  });
+	
+	</script>
 </div>
-<div id="gui">op</div>
-<script>
-  
-  $(document).ready(function(){
-       
-    $('.dropdown-button').dropdown({
-      inDuration: 300,
-      outDuration: 225,
-      constrainWidth: false,
-      hover: false,
-      gutter: 0,
-      belowOrigin: false,
-      alignment: 'left',
-      stopPropagation: false
-    }
-  );
-  });
- 
-  </script>
 </@layout.masterTemplate>
