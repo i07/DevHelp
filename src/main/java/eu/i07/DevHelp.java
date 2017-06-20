@@ -1,26 +1,16 @@
 package eu.i07;
 
 import java.awt.*;
-import java.awt.Window.Type;
 import java.awt.event.*;
+import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.net.URL;
 
-import javax.management.monitor.Monitor;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.Popup;
 import javax.swing.UIManager;
 
-import com.teamdev.jxbrowser.chromium.Browser;
-import com.teamdev.jxbrowser.chromium.JSValue;
-import com.teamdev.jxbrowser.chromium.LoadURLParams;
-import com.teamdev.jxbrowser.chromium.events.ConsoleEvent;
-import com.teamdev.jxbrowser.chromium.events.ConsoleListener;
-import com.teamdev.jxbrowser.chromium.events.ScriptContextAdapter;
-import com.teamdev.jxbrowser.chromium.events.ScriptContextEvent;
-import com.teamdev.jxbrowser.chromium.swing.BrowserView;
-
+import eu.i07.Controls.AppFrame;
 import eu.i07.Spark.Routes;
 import eu.i07.Utils.Globals;
 import eu.i07.Utils.Screen;
@@ -29,25 +19,18 @@ import static spark.Spark.*;
 
 public class DevHelp {
 	
-	static {
-		
-	    //System.out.println(java.awt.GraphicsEnvironment.isHeadless());
-	}
+	private static int AppPID = 0;
 	
-	private JFrame frame;
-	private PopupMenu popup;
+	private AppFrame frame;
 	
 	private int FrameWidth = 550;
 	private int FrameHeight = 800;
-	
-	final static Browser browser = new Browser();
-    BrowserView view = new BrowserView(browser);
-       
+	       
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		
+			
 		Globals.init();
 			
 		try {
@@ -56,18 +39,7 @@ public class DevHelp {
 		} catch(Exception e) {
 			System.out.println("Error setting native LAF: " + e);
 		}
-								
-		System.out.println(Globals.OS);
-		//attach javascript listener, to pass over the JavaObject
-		browser.addScriptContextListener(new ScriptContextAdapter() {
-		    @Override
-		    public void onScriptContextCreated(ScriptContextEvent event) {
-		        Browser browser = event.getBrowser();
-		        JSValue window = browser.executeJavaScriptAndReturnValue("window");
-		        window.asObject().setProperty("java", new JavaObject());
-		    }
-		});
-			
+											
 		// Set static files location
         if (1==2) {
             String projectDir = System.getProperty("user.dir");
@@ -86,13 +58,8 @@ public class DevHelp {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					DevHelp window = new DevHelp();
-					window.frame.setVisible(false);
-					window.frame.setAlwaysOnTop(true);
-					window.frame.setType(Type.POPUP);
-					window.frame.setUndecorated(true);
-					window.frame.getRootPane().setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.decode("#2196f3")));
-																			
+					@SuppressWarnings("unused")
+					DevHelp window = new DevHelp();					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -127,6 +94,9 @@ public class DevHelp {
 	 */
 	private void initialize() {
 		
+		AppPID = Integer.parseInt(ManagementFactory.getRuntimeMXBean().getName().split("@")[0]);
+				
+		System.out.println(AppPID);
 		String trayIconPath = "";
 		
 		switch(Globals.OS) {
@@ -142,55 +112,16 @@ public class DevHelp {
         final TrayIcon trayIcon = new TrayIcon(createImage(trayIconPath, "tray icon"), "DevHelp");
         // add it to system tray
         final SystemTray tray = SystemTray.getSystemTray();
-        
-//        final Frame Invframe = new Frame();
-//		Invframe.setUndecorated(true);
-//		Invframe.setVisible(true);
-//        
-		frame = new JFrame();
+          
+		frame = new AppFrame();
 		frame.setBounds(100, 100, FrameWidth, FrameHeight);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		frame.add(view, BorderLayout.CENTER);
-
-//		popup = new PopupMenu();
-//		
-//		//1t menuitem for popupmenu
-//	    MenuItem action = new MenuItem("Action");
-//	    action.addActionListener(new ActionListener() {
-//	        @Override
-//	        public void actionPerformed(ActionEvent e) {
-//	            JOptionPane.showMessageDialog(null, "Action Clicked");
-//	            trayIcon.setPopupMenu(null);
-//	            //Invframe.remove(popup);
-//	        }
-//	    });
-//	    popup.add(action);
-//		
-//	    //2nd menuitem of popupmenu
-//	    MenuItem close = new MenuItem("Close");
-//	    close.addActionListener(new ActionListener() {
-//	        @Override
-//	        public void actionPerformed(ActionEvent e) {
-//	            System.exit(0);             
-//	        }
-//	    });
-//	    popup.add(close);
-		LoadURLParams urlparams = new LoadURLParams("http://127.0.0.1:1111", "", "DevHelp: true");
-		
-		browser.addConsoleListener(new ConsoleListener() {
-		    public void onMessage(ConsoleEvent event) {
-		        System.out.println("Message: " + event.getMessage());
-		    }
-		});
-		
-		browser.loadURL(urlparams);
-				
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
+							
         trayIcon.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
             	
-            	//TODO: currently hardcoded taskbar height in case 0
+            	//TODO: currently hard-coded task bar height in case 0
             	if (Screen.TaskbarHeight == 0) {
             		Screen.TaskbarHeight = 80;
             	};
@@ -210,7 +141,7 @@ public class DevHelp {
             	
             	if (e.getButton() == MouseEvent.BUTTON1) {
             		
-            		System.out.println(frameTop);
+            		System.out.println("here:" + frameTop);
             		
             		frameLeft = loc.x-(FrameWidth/2);
             		
@@ -227,15 +158,14 @@ public class DevHelp {
         			if (frame.isVisible()) {
         				frame.setVisible(false);
         			} else {
+//        				
         				frame.setVisible(true);
+        				if ("MAC".equals(Globals.OS)) {
+        					MAC_BringSelfToFocus();
+        				}        				
         			}
             	}
-                if (e.getButton() == MouseEvent.BUTTON3) {
-                	
-                	//Invframe.add(popup);
-                	
-                	//popup.show(Invframe, loc.x, e.getYOnScreen());
-                }
+               
             	
             }
         });
@@ -257,6 +187,21 @@ public class DevHelp {
 		
 	}
 	
+
+	private static void MAC_BringSelfToFocus()
+	{
+		
+		String cmd = "tell application \"System Events\" to set frontmost of the first process whose unix id is " + AppPID + " to true";
+		Runtime runtime = Runtime.getRuntime();
+		String[] args = { "osascript", "-e", cmd };
+		
+		try {
+			runtime.exec(args);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	protected static Image createImage(String path, String description) {
         URL imageURL = DevHelp.class.getClassLoader().getResource(path);
          
@@ -272,6 +217,5 @@ public class DevHelp {
         	}
         }
     }
-	
 
 }
