@@ -57,7 +57,7 @@ var DevHelp = {
 			if (successful) {
 				$('#'+element).blur();
 				$('#time_select').focus().blur();
-				DevHelp.ShowNotice($('#' + element).val() + "<br/>to clipboard.");
+				DevHelp.ShowNotice($('#' + element).val() + "<br/>sent to clipboard.");
 			}
 		}
 	},

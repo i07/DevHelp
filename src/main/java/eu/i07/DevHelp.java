@@ -64,6 +64,17 @@ public class DevHelp {
 		public void exit_application() {
 	    	System.exit(0);
 	    }
+		
+		public void openWebpage(String url) {
+		    Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+		    if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+		        try {
+		            desktop.browse(new URL(url).toURI());
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		    }
+		}
 	}
 	
 	/**
