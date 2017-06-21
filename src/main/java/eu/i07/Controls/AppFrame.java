@@ -2,19 +2,11 @@ package eu.i07.Controls;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
 import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.JSValue;
@@ -27,7 +19,7 @@ import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 
 import eu.i07.DevHelp.JavaObject;
 
-public class AppFrame extends JFrame implements FocusListener, WindowFocusListener {
+public class AppFrame extends JFrame implements WindowFocusListener {
 
 	/**
 	 * 
@@ -67,18 +59,11 @@ public class AppFrame extends JFrame implements FocusListener, WindowFocusListen
 		});
 		
 		browser.loadURL(urlparams);
-
-//		view.setVisible(true);
-		//view.setEnabled(true);
-		//view.setRequestFocusEnabled(true);
-        //view.addFocusListener(this);
         
         add(view, BorderLayout.CENTER);
                 
-//		addWindowListener(this);
 		addWindowFocusListener(this);
-//		addWindowStateListener(this);
-		
+
 		setVisible(false);
 		setAlwaysOnTop(true);
 		//setType(Type.POPUP);
@@ -88,26 +73,12 @@ public class AppFrame extends JFrame implements FocusListener, WindowFocusListen
 	}
 	
 	@Override
-	public void focusGained(FocusEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println("ehh");
-	}
-
-	@Override
-	public void focusLost(FocusEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println("ehh2");
-	}
-
-	@Override
 	public void windowGainedFocus(WindowEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("1ehh");
 	}
 
 	@Override
 	public void windowLostFocus(WindowEvent e) {
-		//System.out.println("2ehh");
 		setVisible(false);
 	}
 

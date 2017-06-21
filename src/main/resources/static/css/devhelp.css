@@ -35,6 +35,22 @@
   font-feature-settings: 'liga';
 }
 
+/* main css overrides */
+
+input[type=text] {
+	margin-bottom: 0px;
+}
+/* card panel overrides */
+.card-panel {
+	padding: 12px;
+}
+
+.card-title {
+	text-transform: uppercase;
+	text-align: center;
+	margin-bottom: 8px;
+}
+
 /* label underline focus color */
 .input-field input[type=text]:focus {
    border-bottom: 1px solid #2196f3;
@@ -80,19 +96,32 @@ body {
 }
 
 .dh_tooltip {
-    width: 70px;
-    position: relative;
-    float: left;
+    width: 150px;
+    position: absolute;
     display: block;
-    margin-top: 14px;
+    margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
     text-align: center;
     padding: 8px;
     background-color: #2196f3;
     color: #FFFFFF;
     display:none;
     font-size:11px;
+    top:3px;
 }
 
 #timestamp:hover, #current_date:hover {
     cursor: cell;
+}
+
+.on-input {
+	display: block;
+    position: absolute;
+    top: 11px;
+    right: 12px;
+}
+.on-input:hover {
+	cursor: pointer;
 }

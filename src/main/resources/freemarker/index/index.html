@@ -21,20 +21,47 @@
 	</nav>
 	<!-- Tab bar content containers -->
 	<div id="test1" class="col s12">
-		<div class="row">
-			<div class="input-field col s5">
-				<input type="text" onfocus="DevHelp.DatetimeFocus()" onblur="DevHelp.DatetimeBlur()" id="current_date" class="datepicker"/>
-				<label for="current_date">DateTime <span style="font-size: 9px;">[ click to copy ]</span></label>
-			</div>
-			<div class="input-field col s5">
-				<input type="text" onfocus="DevHelp.TimestampFocus()" onblur="DevHelp.TimestampBlur()" id="timestamp" />
-				<label for="timestamp">Timestamp <span style="font-size: 9px;">[ click to copy ]</span></label>
-			</div>
-			<div class="dh_tooltip" id="timestamp_copied">
-				Copied!
+	<div class="card-panel blue lighten-5">
+		<div class="card-title blue lighten-4 blue-text">Current Date Time</div>
+			<div class="row">
+				<div class="input-field col s6">
+					<input type="text" id="current_date" class="datepicker"/>
+					<label class="blue-text" for="current_date">DateTime <span style="font-size: 9px;">[ click to copy ]</span></label>
+					<i class="material-icons on-input blue-text text-lighten-1" onclick="DevHelp.CopyToClipboard('current_date')">description</i>
+				</div>
+				<div class="input-field col s6">
+					<input type="text" id="timestamp" />
+					<label class="blue-text" for="timestamp">Timestamp <span style="font-size: 9px;">[ click to copy ]</span></label>
+					<i class="material-icons on-input blue-text text-lighten-1" onclick="DevHelp.CopyToClipboard('timestamp')">description</i>
+				</div>
+				<div class="dh_tooltip" id="timestamp_copied">
+				</div>
 			</div>
 		</div>
 	</div>
+	
+	<div class="card-panel blue lighten-5">
+		<div class="card-title blue lighten-4 blue-text">Set Date Time</div>
+			<div class="row">
+				<div class="input-field col s4">
+					<input onchange="DevHelp.DateTimeToTimestamp();" placeholder="Choose date" type="date" id="date_select" class="datepicker"/>
+					<label class="blue-text" for="date_select">Date</label>
+					<i class="material-icons on-input blue-text text-lighten-3" onclick="DevHelp.CopyToClipboard('date_select')">description</i>
+				</div>
+				<div class="input-field col s4">
+					<input onkeyup="DevHelp.DateTimeToTimestamp();" placeholder="00:00:00" type="text" id="time_select" value="00:00:00"/>
+					<label class="blue-text" for="time_select">Time</label>
+					<i class="material-icons on-input blue-text text-lighten-1" onclick="DevHelp.CopyToClipboard('time_select')">description</i>
+				</div>
+				<div class="input-field col s4">
+					<input placeholder="Enter timestamp" onkeyup="DevHelp.TimestampToDate()" type="text" id="calc_timestamp" class=""/>
+					<label class="blue-text" for="calc_timestamp">Timestamp</label>
+					<i class="material-icons on-input blue-text text-lighten-3" onclick="DevHelp.CopyToClipboard('calc_timestamp')">description</i>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<div id="test2" class="col s12">Test 2</div>
 	<div id="test3" class="col s12">Test 3</div>
 			
@@ -65,10 +92,6 @@
 
 <script type="text/javascript">
 	
-	$(function() {
-		DevHelp.Init();
-	});
-
 	var exit = function() {
 		window.java.exit_application();
 	}
@@ -87,7 +110,9 @@
 
 	$(document).ready(function(){
 
-		DevHelp.Init();
+		DevHelp.Init();		
+		
+		$("#time_select").inputmask("hh:mm:ss",{ "placeholder": "0" }); //mask with dynamic syntax
 		
 		$('#settings-menu-click').dropdown({
       		inDuration: 300,
@@ -103,6 +128,10 @@
 		$('.modal').modal();
 
 		$('ul.tabs').tabs();
+		
+		$('#date_select').pickadate({
+			format: 'yyyy-mm-dd'
+		});
 	});
 </script>	
 </@layout.masterTemplate>

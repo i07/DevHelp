@@ -49,48 +49,71 @@ var DevHelp = {
 			}
 		}, 1000);
 	},
-
-	TimestampFocus: function() {
-		DevHelp.TimeStampFocus = true;
-		
-		$('#timestamp').select();
-		var successful = document.execCommand('copy');
-
-        if(successful) {
-        	$('#timestamp').blur();
-        	$('#timestamp_copied').fadeOut(1);
-        	$('#timestamp_copied').html('Timestamp<br/>Copied!');
-        	$('#timestamp_copied').fadeIn(500, function() {
-        		setTimeout(function() {
-        			$('#timestamp_copied').fadeOut(500);
-        		}, 1000);
-        	})
-        }
+	
+	CopyToClipboard: function(element) {
+		if ($('#' + element + ' ~ i').hasClass("text-lighten-1")) {
+			$('#' + element).select();
+			var successful = document.execCommand('copy');
+			if (successful) {
+				$('#'+element).blur();
+				$('#time_select').focus().blur();
+				DevHelp.ShowNotice($('#' + element).val() + "<br/>to clipboard.");
+			}
+		}
 	},
 	
-	TimestampBlur: function() {
-		DevHelp.TimeStampFocus = false;
-		//$('#timestamp').blur();
+	ShowNotice: function(message) {
+		$('#timestamp_copied').fadeOut(1);
+    	$('#timestamp_copied').html(message);
+    	$('#timestamp_copied').fadeIn(1000, function() {
+    		setTimeout(function() {
+    			$('#timestamp_copied').fadeOut(1000);
+    		}, 1000);
+    	})
 	},
+	
+	TimestampToDate: function() {
+		var timestamp = $('#calc_timestamp').val();
+		if (timestamp == "") {
+			$('#calc_timestamp ~ i').removeClass('text-lighten-1').addClass('text-lighten-3');
+			
+			$('#date_select').val('');
+			$('#date_select ~ i').removeClass('text-lighten-1').addClass('text-lighten-3');
+			
+			$('#time_select').val('');
+		} else {
+			
+			$('#calc_timestamp ~ i').removeClass('text-lighten-3').addClass('text-lighten-1');
+			var date = new Date(timestamp*1000);
 
-	DatetimeFocus: function() {
-		DevHelp.DateTimeFocus = true;
-		$('#current_date').select();
-		var successful = document.execCommand('copy');
-		if(successful) {
-        	$('#current_date').blur();
-        	$('#timestamp_copied').fadeOut(1);
-        	$('#timestamp_copied').html('DateTime<br/>Copied!')
-        	$('#timestamp_copied').fadeIn(500, function() {
-        		setTimeout(function() {
-        			$('#timestamp_copied').fadeOut(500);
-        		}, 1000);
-        	})
-        }
+			$('#date_select').val([date.getFullYear(), AddZero(date.getMonth() + 1), AddZero(date.getDate())].join("-"));
+			$('#date_select ~ i').removeClass('text-lighten-3').addClass('text-lighten-1');
+			
+			$('#time_select').val([AddZero(date.getHours()), AddZero(date.getMinutes()), AddZero(date.getSeconds())].join(":"));
+		}
 	},
-
-	DatetimeBlur: function() {
-		DevHelp.DateTimeFocus = false;
+	
+	DateTimeToTimestamp: function() {
+		var dateStr = $('#date_select').val();
+		var timeStr = $('#time_select').val();
+		console.log(timeStr);
+		if (dateStr == "") {
+			var date = new Date();
+			dateStr = [date.getFullYear(), AddZero(date.getMonth() + 1), AddZero(date.getDate())].join("-");
+			var chkdate = new Date(dateStr + " " + timeStr);
+			if (chkdate.getUnixTime() != 0) {
+				$('#date_select').val(dateStr);
+				$('#date_select ~ i').removeClass('text-lighten-3').addClass('text-lighten-1');
+			}
+		}
+		var date = new Date(dateStr + " " + timeStr);
+		if (date.getUnixTime() != 0) {
+			$('#calc_timestamp').val(date.getUnixTime());
+			$('#calc_timestamp ~ i').removeClass('text-lighten-3').addClass('text-lighten-1');
+		} else {
+			$('#calc_timestamp').val('');
+			$('#calc_timestamp ~ i').removeClass('text-lighten-1').addClass('text-lighten-3');
+		}
 	},
 
 	LoadPage: function(page) {
