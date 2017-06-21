@@ -31,8 +31,7 @@ public class DevHelp {
 	public static void main(String[] args) {
 			
 		Globals.init();
-		
-											
+				
 		// Set static files location
         if (1==1) {
             String projectDir = System.getProperty("user.dir");

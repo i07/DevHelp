@@ -21,27 +21,26 @@
 	</nav>
 	<!-- Tab bar content containers -->
 	<div id="test1" class="col s12">
-	<div class="card-panel blue lighten-5">
-		<div class="card-title blue lighten-4 blue-text">Current Date Time</div>
+		<div class="card-panel blue lighten-5">
+			<div class="card-title blue lighten-4 blue-text">Current Date Time</div>
 			<div class="row">
 				<div class="input-field col s6">
 					<input type="text" id="current_date" class="datepicker"/>
-					<label class="blue-text" for="current_date">DateTime <span style="font-size: 9px;">[ click to copy ]</span></label>
+					<label class="blue-text" for="current_date">DateTime</label>
 					<i class="material-icons on-input blue-text text-lighten-1" onclick="DevHelp.CopyToClipboard('current_date')">description</i>
 				</div>
 				<div class="input-field col s6">
 					<input type="text" id="timestamp" />
-					<label class="blue-text" for="timestamp">Timestamp <span style="font-size: 9px;">[ click to copy ]</span></label>
+					<label class="blue-text" for="timestamp">Timestamp</label>
 					<i class="material-icons on-input blue-text text-lighten-1" onclick="DevHelp.CopyToClipboard('timestamp')">description</i>
 				</div>
 				<div class="dh_tooltip" id="timestamp_copied">
 				</div>
 			</div>
 		</div>
-	</div>
 	
-	<div class="card-panel blue lighten-5">
-		<div class="card-title blue lighten-4 blue-text">Set Date Time</div>
+		<div class="card-panel blue lighten-5">
+			<div class="card-title blue lighten-4 blue-text">Set Date Time</div>
 			<div class="row">
 				<div class="input-field col s4">
 					<input onchange="DevHelp.DateTimeToTimestamp();" placeholder="Choose date" type="date" id="date_select" class="datepicker"/>
@@ -60,8 +59,9 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	
+		
+	</div>	
+			
 	<div id="test2" class="col s12">Test 2</div>
 	<div id="test3" class="col s12">Test 3</div>
 			
