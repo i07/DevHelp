@@ -2,10 +2,12 @@ package eu.i07;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
@@ -24,16 +26,30 @@ public class DevHelp {
 	
 	private int FrameWidth = 550;
 	private int FrameHeight = 800;
-	       
+
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 			
 		Globals.init();
-				
+					    
+		String appHome = System.getProperty("user.home");
+		
+		System.out.println(appHome);
+		
+		File directory = new File(String.valueOf(appHome + "/.devhelp"));
+
+	    if (!directory.exists()) {
+	        directory.mkdir();
+	        directory = new File(String.valueOf(appHome + "/.devhelp/modules"));
+	        if (!directory.exists()) {
+	        	directory.mkdir();
+	        }
+	    }
+		
 		// Set static files location
-        if (1==1) {
+        if (1==2) {
             String projectDir = System.getProperty("user.dir");
             String staticDir = "/src/main/resources/static";
             staticFiles.externalLocation(projectDir + staticDir);
@@ -81,7 +97,7 @@ public class DevHelp {
 	 * Create the application.
 	 */
 	public DevHelp() {
-		
+			    
 		if (!SystemTray.isSupported()) {
 			// If SystemTray is not supported the app cannot run
 			// TODO: throw an error, so the user understands why it cannot run this application.
