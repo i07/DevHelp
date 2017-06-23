@@ -9,11 +9,17 @@ var DevHelp = {
 	TimeStampFocus: false,
 	DateTimeUpdate: null,
 	DateTimeFocus: false,
+	B64Type: 'encode',
 
 	Init: function() {
 		
     	DevHelp.SetDates();
     	DevHelp.StartTimestampUpdate();
+    	
+    	var ct = new Date().getTimezoneOffset();
+    	ct = ct / -60;
+    	if (ct>0) ct="+"+ct;
+    	$("#client_timezone").html(ct);
 		//this.loadPage('pages/index');
 	},
 
@@ -86,10 +92,10 @@ var DevHelp = {
 			$('#calc_timestamp ~ i').removeClass('text-lighten-3').addClass('text-lighten-1');
 			var date = new Date(timestamp*1000);
 
-			$('#date_select').val([date.getFullYear(), AddZero(date.getMonth() + 1), AddZero(date.getDate())].join("-"));
+			$('#date_select').val([date.getFullYear(), AddZero(date.getUTCMonth() + 1), AddZero(date.getUTCDate())].join("-"));
 			$('#date_select ~ i').removeClass('text-lighten-3').addClass('text-lighten-1');
 			
-			$('#time_select').val([AddZero(date.getHours()), AddZero(date.getMinutes()), AddZero(date.getSeconds())].join(":"));
+			$('#time_select').val([AddZero(date.getUTCHours()), AddZero(date.getUTCMinutes()), AddZero(date.getUTCSeconds())].join(":"));
 		}
 	},
 	
@@ -115,7 +121,27 @@ var DevHelp = {
 			$('#calc_timestamp ~ i').removeClass('text-lighten-1').addClass('text-lighten-3');
 		}
 	},
-
+	
+	B64switch: function(wh) {
+		DevHelp.B64Type = wh;
+		$('#base64dd_title').html(wh);
+		if (wh=="encode") {
+			$('#base64_text').attr('placeholder', 'type text to base64 encode');
+			$('#base64_result').attr('placeholder', 'encoded result will appear here');
+		} else {
+			$('#base64_text').attr('placeholder', "type text to base64 decode");
+			$('#base64_result').attr('placeholder', 'decoded result will appear here');
+		}
+	},
+	
+	DoBase64: function() {
+		if (DevHelp.B64Type=="encode") {
+			$('#base64_result').val(btoa($('#base64_text').val()));
+		} else {
+			$('#base64_result').val(atob($('#base64_text').val()));
+		}
+	},
+	
 	LoadPage: function(page) {
 		
 		$("#gui").html('');

@@ -19,6 +19,7 @@
 			</ul>
 	 	</div>
 	</nav>
+	<div class="dh_tooltip" id="timestamp_copied"></div>
 	<!-- Tab bar content containers -->
 	<div id="test1" class="col s12">
 		<div class="card-panel blue lighten-5">
@@ -26,7 +27,7 @@
 			<div class="row">
 				<div class="input-field col s6">
 					<input type="text" id="current_date" class="datepicker"/>
-					<label class="blue-text" for="current_date">DateTime</label>
+					<label class="blue-text" for="current_date">DateTime (Your timezone: <span id="client_timezone"></span>)</label>
 					<i class="material-icons on-input blue-text text-lighten-1" onclick="DevHelp.CopyToClipboard('current_date')">description</i>
 				</div>
 				<div class="input-field col s6">
@@ -34,13 +35,11 @@
 					<label class="blue-text" for="timestamp">Timestamp</label>
 					<i class="material-icons on-input blue-text text-lighten-1" onclick="DevHelp.CopyToClipboard('timestamp')">description</i>
 				</div>
-				<div class="dh_tooltip" id="timestamp_copied">
-				</div>
 			</div>
 		</div>
 	
 		<div class="card-panel blue lighten-5">
-			<div class="card-title blue lighten-4 blue-text">Set Date Time</div>
+			<div class="card-title blue lighten-4 blue-text">Set Date Time (UTC)</div>
 			<div class="row">
 				<div class="input-field col s4">
 					<input onchange="DevHelp.DateTimeToTimestamp();" placeholder="Choose date" type="date" id="date_select" class="datepicker"/>
@@ -63,7 +62,23 @@
 	</div>	
 			
 	<div id="test2" class="col s12">Test 2</div>
-	<div id="test3" class="col s12">Test 3</div>
+	<div id="test3" class="col s12"  style='overflow-y: auto; overflow-x:hidden;'>
+	<ul id="base64dropdown" class="dropdown-content blue lighten-4 blue-text">
+	  <li><a class="blue lighten-4 blue-text" href="javascript:DevHelp.B64switch('encode');">Encode</a></li>
+	  <li><a class="blue lighten-4 blue-text" href="javascript:DevHelp.B64switch('decode');">Decode</a></li>
+	</ul>
+		<div class="card-panel blue lighten-5">
+			<div class="card-title blue lighten-4 blue-text">Base64 <a class="btn-flat" id='base64dd' href="#!" data-activates="base64dropdown" style="color: inherit; line-height: 18px;padding-left:5px;padding-right:0;vertical-align: inherit;height:inherit;"><span id="base64dd_title">Encode</span><i style="margin-left: 5px;" class="material-icons right">arrow_drop_down</i></a></div>
+				<div >
+					<textarea placeholder="type text to base64 encode" id="base64_text" style="background-color: white;height:300px;" onkeyup="DevHelp.DoBase64()"></textarea>
+					<div class="input-field col s4">
+						<textarea placeholder="encoded result will appear here" id="base64_result" style="height:300px;" class=""></textarea>
+						<i class="material-icons on-input blue-text text-lighten-1" onclick="DevHelp.CopyToClipboard('base64_result')">description</i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 			
 	<!-- Settings Drop-down -->
 	<ul id='dropdown1' style="width: 200px;" class='dropdown-content'>
@@ -128,6 +143,8 @@
 	$(document).ready(function(){
 
 		DevHelp.Init();		
+		
+		$('#base64dd').dropdown();
 		
 		$("#time_select").inputmask("hh:mm:ss",{ "placeholder": "0" }); //mask with dynamic syntax
 		

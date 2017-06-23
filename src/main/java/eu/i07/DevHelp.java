@@ -65,7 +65,7 @@ public class DevHelp {
 	    	System.exit(0);
 	    }
 		
-		public void openWebpage(String url) {
+		public void openWebPage(String url) {
 		    Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
 		    if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
 		        try {
